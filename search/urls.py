@@ -1,7 +1,9 @@
-from django.urls import path
-
-from . import views
+from django.urls import path, include
+from .views import AllView, AddBook, SearchByTitle
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path('all/', AllView.as_view()),
+    path('book/', AddBook.as_view()),
+    path('', SearchByTitle.as_view()), 
+    path('accounts/', include('allauth.urls'))
 ]
