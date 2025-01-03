@@ -2,8 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
-from .models import Book
-from django.contrib.auth.mixins import LoginRequiredMixin
+from books.models import Book
 
 
 class BookResponse(serializers.Serializer):
@@ -29,14 +28,6 @@ class AllView(APIView):
         serialized_data = BookResponse(all_objects, many=True).data
         return Response(serialized_data)
     
-
-class AddBook(LoginRequiredMixin, APIView):
-    def post(self, request):
-        serializer = BookSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class SearchByTitle(APIView):
     def get(self, request):
