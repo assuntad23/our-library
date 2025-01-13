@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 def landing_page(request):
-    return HttpResponse("Welcome to Our Library!")
+    return render(request, 'index.html')
