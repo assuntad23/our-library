@@ -18,7 +18,7 @@ class BookResponse(serializers.Serializer):
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ['title', 'author_first', 'author_last', 'fiction', 'condition', 'assunta_read', 'lucian_read']
+        fields = ['id', 'title', 'author_first', 'author_last', 'fiction', 'condition', 'assunta_read', 'lucian_read']
 
 
 # Step 2: Update the view

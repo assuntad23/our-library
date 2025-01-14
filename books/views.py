@@ -13,8 +13,9 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ['title', 'author_first', 'author_last', 'fiction', 'condition', 'assunta_read', 'lucian_read']
 
-class AddBook(APIView):
+class AddBook(LoginRequiredMixin, APIView):
     def post(self, request):
+        print("Current User!!!!!!!!!!!!!!!", request.user)
         title = request.data.get('title')
         author_first = request.data.get('author_first')
         author_last = request.data.get('author_last')
