@@ -20,46 +20,46 @@ class AuthenticationTests(TestCase):
             lucian_read=False,
         )
 
-def test_add_book_authenticated(self):
-    self.client.login(username='testuser', password='password')
+    def test_add_book_authenticated(self):
+        self.client.login(username='testuser', password='password')
     
-    data = {
-        'title': 'New Test Book',
-        'author_first': 'Jane',
-        'author_last': 'Smith',
-        'fiction': True,
-        'condition': 'New',
-        'assunta_read': False,
-        'lucian_read': False
-    }
+        data = {
+            'title': 'New Test Book',
+            'author_first': 'Jane',
+            'author_last': 'Smith',
+            'fiction': True,
+            'condition': 'N',
+            'assunta_read': False,
+            'lucian_read': False
+        }
     
-    response = self.client.post('/books/add/', data, format='json')
+        response = self.client.post('/books/add/', data, format='json')
     
-    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-def test_add_book_requires_authentication(self):
-    data = {
-        'title': 'New Test Book',
-        'author_first': 'Jane',
-        'author_last': 'Smith',
-        'fiction': True,
-        'condition': 'New',
-        'assunta_read': False,
-        'lucian_read': False
-    }
+    def test_add_book_requires_authentication(self):
+        data = {
+            'title': 'New Test Book',
+            'author_first': 'Jane',
+            'author_last': 'Smith',
+            'fiction': True,
+            'condition': 'N',
+            'assunta_read': False,
+            'lucian_read': False
+        }
 
-    response = self.client.post('/books/add/', data, format='json')
-    
-    self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+        response = self.client.post('/books/add/', data, format='json')
+        
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
 
-def test_delete_book_requires_authentication(self):
-    response = self.client.delete(f'/books/{self.book.id}/')
-    
-    self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+    def test_delete_book_requires_authentication(self):
+        response = self.client.delete(f'/books/{self.book.id}/')
+        
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
 
-def test_delete_book_authenticated(self):
-    self.client.login(username='testuser', password='password')
+    def test_delete_book_authenticated(self):
+        self.client.login(username='testuser', password='password')
 
-    response = self.client.delete(f'/books/{self.book.id}/')
-    
-    self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        response = self.client.delete(f'/books/{self.book.id}/')
+        
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
