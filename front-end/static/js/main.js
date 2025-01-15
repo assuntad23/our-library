@@ -3,7 +3,7 @@ document.getElementById("search-btn").addEventListener("click", async () => {
   const response = await fetch(`/search/?title=${query}`);
   const books = await response.json();
   const bookList = document.getElementById("book-list");
-  bookList.innerHTML = ""; // Clear previous results
+  bookList.innerHTML = ""; 
 
   books.forEach((book) => {
     const author = `${book.author_first} ${book.author_last}`;
@@ -74,22 +74,21 @@ document
 
     if (response.ok) {
       alert("Book added successfully!");
-      document.getElementById("add-book-modal").click(); // Close modal
-      document.getElementById("search-btn").click(); // Refresh the table
+      document.getElementById("add-book-modal").click(); 
+      document.getElementById("search-btn").click(); 
     } else {
       alert("Failed to add book.");
     }
   });
 
 function getCookie(name) {
-  let cookieValue = null; // Default value if the cookie is not found
+  let cookieValue = null; 
   if (document.cookie && document.cookie !== "") {
-    const cookies = document.cookie.split(";"); // Split cookies into key-value pairs
+    const cookies = document.cookie.split(";"); 
     for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim(); // Remove whitespace around the cookie
-      // Check if the cookie starts with the desired name
+      const cookie = cookies[i].trim(); 
       if (cookie.substring(0, name.length + 1) === name + "=") {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1)); // Decode the cookie value
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1)); 
         break;
       }
     }
@@ -112,7 +111,7 @@ document.addEventListener("click", async (event) => {
 
       if (response.ok) {
         alert("Book deleted successfully!");
-        event.target.closest("tr").remove(); // Remove row from table
+        event.target.closest("tr").remove(); 
       } else {
         alert("Failed to delete book.");
       }

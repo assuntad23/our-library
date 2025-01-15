@@ -15,7 +15,6 @@ class BookSerializer(serializers.ModelSerializer):
 
 class AddBook(LoginRequiredMixin, APIView):
     def post(self, request):
-        print("Current User!!!!!!!!!!!!!!!", request.user)
         title = request.data.get('title')
         author_first = request.data.get('author_first')
         author_last = request.data.get('author_last')
@@ -36,6 +35,5 @@ class DeleteBook(LoginRequiredMixin, APIView):
         # Find the book using its primary key (id)
         book = get_object_or_404(Book, pk=pk)
         
-        # Delete the book
         book.delete()
         return Response({"message": "Book deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
