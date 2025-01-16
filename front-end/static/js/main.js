@@ -1,21 +1,30 @@
-document.getElementById("search-btn").addEventListener("click", async () => {
-  const query = document.getElementById("search-input").value;
-  const response = await fetch(`/search/?title=${query}`);
-  const books = await response.json();
-  const bookList = document.getElementById("book-list");
-  bookList.innerHTML = ""; 
+async function fetchBooks(query = "") {
+  try {
+    const response = await fetch(`/search/?title=${query}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch books.");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    alert("An error occurred while fetching books.");
+  }
+}
 
+function updateBookTable(books) {
+  const bookList = document.getElementById("book-list");
+  bookList.innerHTML = "";
+  const conditionMap = {
+    N: "New",
+    VG: "Very Good",
+    G: "Good",
+    U: "Used",
+    NR: "Needs Repair",
+  };
   books.forEach((book) => {
     const author = `${book.author_first} ${book.author_last}`;
     const fictionStatus = book.fiction ? "Fiction" : "Non-Fiction";
-    const conditionMap = {
-      N: "New",
-      VG: "Very Good",
-      G: "Good",
-      U: "Used",
-      NR: "Needs Repair",
-    };
-    const condition = conditionMap[book.condition];
+
     const readBy =
       book.assunta_read && book.lucian_read
         ? "Assunta, Lucian"
@@ -30,15 +39,25 @@ document.getElementById("search-btn").addEventListener("click", async () => {
                 <td>${book.title}</td>
                 <td>${author}</td>
                 <td>${fictionStatus}</td>
-                <td>${condition}</td>
+                <td>${conditionMap[book.condition]}</td>
                 <td>${readBy}</td>
-                ${isAuthenticated ? `
+                ${
+                  isAuthenticated
+                    ? `
                 <td>
                   <button class="btn btn-danger btn-sm delete-btn" data-id="${book.id}">Delete</button>
                 </td>
-                ` : ''}
+                `
+                    : ""
+                }
             </tr>`;
   });
+}
+
+document.getElementById("search-btn").addEventListener("click", async () => {
+  const query = document.getElementById("search-input").value;
+  const books = await fetchBooks(query);
+  if (books) updateBookTable(books);
 });
 
 document
@@ -74,21 +93,21 @@ document
 
     if (response.ok) {
       alert("Book added successfully!");
-      document.getElementById("add-book-modal").click(); 
-      document.getElementById("search-btn").click(); 
+      document.getElementById("add-book-modal").click();
+      document.getElementById("search-btn").click();
     } else {
       alert("Failed to add book.");
     }
   });
 
 function getCookie(name) {
-  let cookieValue = null; 
+  let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
-    const cookies = document.cookie.split(";"); 
+    const cookies = document.cookie.split(";");
     for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim(); 
+      const cookie = cookies[i].trim();
       if (cookie.substring(0, name.length + 1) === name + "=") {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1)); 
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
         break;
       }
     }
@@ -111,7 +130,7 @@ document.addEventListener("click", async (event) => {
 
       if (response.ok) {
         alert("Book deleted successfully!");
-        event.target.closest("tr").remove(); 
+        event.target.closest("tr").remove();
       } else {
         alert("Failed to delete book.");
       }

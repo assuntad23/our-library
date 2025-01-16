@@ -4,17 +4,6 @@ from rest_framework import serializers
 from rest_framework import status
 from books.models import Book
 
-
-class BookResponse(serializers.Serializer):
-    id = serializers.IntegerField(source='pk')
-    title = serializers.CharField()
-    author_first = serializers.CharField()
-    author_last = serializers.CharField()
-    fiction = serializers.BooleanField()
-    condition = serializers.CharField()
-    assunta_read = serializers.BooleanField()
-    lucian_read = serializers.BooleanField()
-
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
@@ -25,7 +14,7 @@ class BookSerializer(serializers.ModelSerializer):
 class AllView(APIView):
     def get(self, request):
         all_objects = Book.objects.all()
-        serialized_data = BookResponse(all_objects, many=True).data
+        serialized_data = BookSerializer(all_objects, many=True).data
         return Response(serialized_data)
     
     
@@ -33,7 +22,7 @@ class SearchByTitle(APIView):
     def get(self, request):
         title = request.query_params.get('title')
         if not title: 
-            return Response ({"error": "No such title exists"})
+            return Response({"books": []}, status=status.HTTP_200_OK)
         books = Book.objects.filter(title__icontains=title)
         if books.exists():
             serializer = BookSerializer(books, many=True)

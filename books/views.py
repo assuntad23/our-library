@@ -36,4 +36,4 @@ class DeleteBook(LoginRequiredMixin, APIView):
         book = get_object_or_404(Book, pk=pk)
         
         book.delete()
-        return Response({"message": "Book deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Book '{book.title}' deleted successfully."}, status=status.HTTP_204_NO_CONTENT)

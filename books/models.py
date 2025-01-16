@@ -16,3 +16,6 @@ class Book(models.Model):
     condition = models.CharField(max_length=2, choices=BookConditions.choices, default=BookConditions.GOOD)
     assunta_read = models.BooleanField(default=False)
     lucian_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.title} by {self.author_first} {self.author_last}"

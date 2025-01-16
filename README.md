@@ -11,9 +11,13 @@ I built it to keep track of my personal library, so I could access the titles I 
 Essentially, a very simple app meant to service very few people. It is designed as more of a pet project and is not very scalable. 
 
 ## Potential Improvements
+ - Endpoint to search by author
+ - Endpoint to update a book (in particular who's read it, but also account for any errors, replacement purchases)
  - Updating the Database to a production level DB
  - Using a modern JS framework (preferably Vue or React)
  - Creating a login page (beyond the built-in Django admin login)
+ - Better Error Handling, especially on the frontend
+ - Add a Data page with book count, unique author count, how many books each of us read, anything else interesting
 
 ## Model
 There is only one database table called Book. Book has:
