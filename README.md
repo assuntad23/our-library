@@ -20,3 +20,5 @@ There is only one database table called Book. Book has:
  - assunta_read : boolean (True if Assunta has read it)
  - lucian_read : boolean (True if Lucian has read it)
 
+## To Build
+After cloning the repo and making sure you have the right apps installed (see Tech Stack), to build this project you need only run `python manage.py runserver`
